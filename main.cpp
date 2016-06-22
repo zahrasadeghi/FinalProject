@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "staff/TileMap.h"
 
+#include "SFML-utils/core/AnimatedSprite.hpp"
+
 using namespace std;
 
 void findCell(sf::Vector2f z)
@@ -27,8 +29,24 @@ int main()
     netWars::TileMap tileMap(netWars::TileMap::SAMPLE);
     sf::Sprite _cursor(netWars::Configuration::textures.get(netWars::Configuration::TexCursor));
 
+    /// animation example
+    sfutils::ResourceManager<sf::Texture, int> textures;
+    textures.load(0, "img/eye.png");
+    sfutils::Animation walkLeft(&textures.get(0));
+    walkLeft.addFramesLine(4,2,0);
+    sfutils::Animation walkRight(&textures.get(0));
+    walkRight.addFramesLine(4,2,1);
+    //Creation of the animates sprite
+    sfutils::AnimatedSprite sprite(&walkLeft,sfutils::AnimatedSprite::Playing,sf::seconds(0.1));
+    sf::Clock clock;
+    ///
+
     while(window.isOpen())
     {
+        ///animation example
+        sf::Time delta = clock.restart();
+        ///
+
         while(window.pollEvent(event))
         {
             if(event.type == sf::Event::Closed)
@@ -95,9 +113,32 @@ int main()
                 }
             }
         }
+
+        ///animation example
+        float speed = 50; // the movement speed of the entity
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) //move left
+        {
+            sprite.setAnimation(&walkLeft);
+            sprite.play();
+            sprite.move(-speed*delta.asSeconds(),0);
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))//move right
+        {
+            sprite.setAnimation(&walkRight);
+            sprite.play();
+            sprite.move(speed*delta.asSeconds(),0);
+        }
+        ///
+
         window.setView(view1);
         window.clear();
         window.draw(tileMap);
+
+        ///animation example
+        sprite.update(delta);
+        window.draw(sprite);
+        ///
+
         window.setView(window.getDefaultView());
         _cursor.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
         window.draw(_cursor);

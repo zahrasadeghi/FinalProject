@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Configuration.h"
+#include "Coordinate/HexFractionalPosition.h"
 
 namespace netWars
 {
@@ -17,6 +18,7 @@ const float PI = 3.14;      //PI Number
 class Cell : public sf::Drawable, public sf::Transformable
 {
     int radious;
+    HexPosition pos;
     sf::Sprite *sprite;
     #ifdef DEBUG
     sf::VertexArray vertex;
@@ -24,7 +26,7 @@ class Cell : public sf::Drawable, public sf::Transformable
     #endif // DEBUG
 public:
     enum type {Water, Dirt, Grass};
-    Cell(type t, int radious, std::string lable);
+    Cell(HexPosition pos, type t, int radious);
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

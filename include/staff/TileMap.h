@@ -10,10 +10,11 @@ namespace netWars
 
 class TileMap : public sf::Drawable
 {
-    std::vector< std::vector<Cell*> > hexs;
+    std::vector<Cell*> hexs;
 public:
     enum MAPS : int {SAMPLE};
     TileMap(MAPS mapName, int radious=71);
+    static HexPosition convertToHexPos(sf::Vector2f pt);
     ~TileMap();
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

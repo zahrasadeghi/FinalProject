@@ -128,6 +128,14 @@ int main()
             sprite.play();
             sprite.move(speed*delta.asSeconds(),0);
         }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))//move up
+        {
+            sprite.move(0,-speed*delta.asSeconds());
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))//move down
+        {
+            sprite.move(0,speed*delta.asSeconds());
+        }
         ///
 
         window.setView(view1);

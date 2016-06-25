@@ -22,9 +22,9 @@ TileMap::TileMap(MAPS mapName, int radious)
 
 TileMap::~TileMap()
 {
-    for(int i=0;i<hexs.size();i++)
+    for(auto cell : hexs)
     {
-            delete hexs[i];
+            delete cell;
     }
 }
 
